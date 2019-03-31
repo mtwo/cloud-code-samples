@@ -2,10 +2,16 @@ const express = require('express')
 const path = require('path');
 const moment = require('moment')
 const app = express();
-const bodyParser = require('body-parser')
-const axios = require('axios')
+const bodyParser = require('body-parser');
+const axios = require('axios');
+require('@google-cloud/profiler').start({
+  serviceContext: {
+      service: 'frontend',
+      version: '1.0.0'
+  }
+});
 
-const util = require('./utils')
+const util = require('./utils');
 
 const GUESTBOOK_API_ADDR = process.env.GUESTBOOK_API_ADDR || 'localhost:8080'
 

@@ -3,6 +3,12 @@ const mongoose = require('mongoose')
 const app = express()
 const routes = require('./routes')
 const PORT = process.env.PORT || 8080;
+require('@google-cloud/profiler').start({
+  serviceContext: {
+      service: 'backend',
+      version: '1.0.0'
+  }
+});
 
 const MONGO_USERNAME = process.env.MONGO_USERNAME || 'root'
 const MONGO_PASSWORD = process.env.MONGO_PASSWORD || 'password'
