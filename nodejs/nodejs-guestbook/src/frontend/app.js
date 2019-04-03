@@ -4,8 +4,21 @@ const moment = require('moment')
 const app = express();
 const bodyParser = require('body-parser')
 const axios = require('axios')
-
 const util = require('./utils')
+
+//const tracing = require('@opencensus/nodejs');
+//const { StackdriverTraceExporter } = require('@opencensus/exporter-stackdriver');
+const { globalStats } = require('@opencensus/core');
+const { StackdriverStatsExporter } = require('@opencensus/exporter-stackdriver');
+//const exporter = new StackdriverTraceExporter();
+const exporter = new StackdriverStatsExporter({projectId: "next-csm"});
+
+require('@google-cloud/profiler').start({
+  serviceContext: {
+      service: 'frontend',
+      version: '1.0.0'
+  }
+});
 
 const GUESTBOOK_API_ADDR = process.env.GUESTBOOK_API_ADDR || 'localhost:8080'
 
@@ -21,6 +34,9 @@ app.use(router)
 
 app.use(express.static('public'))
 router.use(bodyParser.urlencoded({ extended: false }))
+
+globalStats.registerExporter(exporter);
+//tracing.registerExporter(exporter).start();
 
 // starts an http server on the $PORT environment variable
 const PORT = process.env.PORT || 8001;

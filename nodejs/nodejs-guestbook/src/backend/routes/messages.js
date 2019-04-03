@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const MONGO_URI = process.env.DB_ADDRESS || 'mongodb://localhost:27017/test';
+const MONGO_URI = "mongo-service"; //process.env.DB_ADDRESS || 'mongodb://localhost:27017/test';
 mongoose.connect(MONGO_URI, { useNewUrlParser: true })
 
 const messageSchema = mongoose.Schema({
